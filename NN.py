@@ -11,7 +11,7 @@ def build_fcnn(
     activation_derivative,
     data,
     batch_size,
-    epochs_count=100,
+    epochs_count=250,
     on_epoch_end=lambda epoch_number, learning_time, model: None,
     learning_rate=0.1,
 ):
@@ -122,11 +122,16 @@ def main():
         ) / len(X_test)
 
     model = build_fcnn(
-        layers_sizes=[pixels_count, 3, 10],
+        layers_sizes=[
+            pixels_count,
+            100,
+            50,
+            10,
+        ],
         activation=sigmoid,
         activation_derivative=sigmoid_derivative,
         data=list(zip(X_train, y_train)),
-        batch_size=32,
+        batch_size=8,
         on_epoch_end=lambda epoch_number, learning_time, model: print(
             f"Epoch {epoch_number} finished in {learning_time} with accuracy: {evaluate_accuracy(model)}"
         ),
