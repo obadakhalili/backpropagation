@@ -54,13 +54,17 @@ def build_fcnn(
         ):
             layer_delta_ls, previous_layer_batch_activations = deltas_activations
 
-            weights[index] = learning_rate * (
+            weights[index] -= learning_rate * (
                 np.matmul(
                     layer_delta_ls,
                     previous_layer_batch_activations.T,
                 )
                 / batch_size
             )
+            biases[index] -= learning_rate * (
+                np.sum(layer_delta_ls, axis=1, keepdims=True) / batch_size
+            )
+
 
     def gradient_descent():
         for epoch_number in range(epochs_count):
